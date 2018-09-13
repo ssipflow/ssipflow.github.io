@@ -15,7 +15,7 @@
 minimal_mistakes_skin    : "default" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "ko"
+locale                   : "ko" # "en-US" # "ko"
 title                    : "Nelson's DevParty"
 title_separator          : "-"
 name                     : "Nelson Kim"
@@ -27,9 +27,9 @@ teaser                   : # path of fallback teaser image, e.g. "/assets/images
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "staticman_v2" "custom"
+  provider               : "disqus" # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "staticman_v2" "custom"
   disqus:
-    shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
+    shortname            : nelsonkim-dev-blog # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
   discourse:
     server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
   facebook:
@@ -50,9 +50,9 @@ staticman:
     email                : # "md5"
   generatedFields:
     date:
-      type               : # "date"
+      type               : "date" # "date"
       options:
-        format           : # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
+        format           : "iso8601" # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
 reCaptcha:
   siteKey                :
   secret                 :
@@ -266,6 +266,6 @@ defaults:
       layout: single
       author_profile: true
       read_time: false
-      comments: # true
-      share: true
+      comments: true # true
+      share: false
       related: true
