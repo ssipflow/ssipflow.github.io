@@ -20,9 +20,9 @@ title                    : "Nelson's DevParty"
 title_separator          : "-"
 name                     : "Nelson Kim"
 description              : "Nelson's Dev Blog."
-url                      : "https://nelsonkim.github.io"
+url                      : "https://ssipflow.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : "ssipflow/nelsonkim.github.io"
+repository               : "ssipflow/ssipflow.github.io"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
