@@ -113,7 +113,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "https://www.github.com/ssipflow"
+  github           : "ssipflow"
   gitlab           :
   google_plus      :
   keybase          :
@@ -267,5 +267,5 @@ defaults:
       author_profile: true
       read_time: false
       comments: true # true
-      share: false
+      share: true
       related: true
