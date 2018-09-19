@@ -3,6 +3,7 @@ layout: single
 permalink: /about-me/
 title: "About"
 author_profile: true
+comments: false
 ---
 ## 김 명 균 (Nelson Kim)
 E-MAIL: [ssipflow@gmail.com](mailto:ssipflow@gmail.com)  
