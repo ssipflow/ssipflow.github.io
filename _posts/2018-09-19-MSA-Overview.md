@@ -21,7 +21,11 @@ Spring Cloud (Spring Boot + Netflix OSS)를 사용한 API GATEWAY 개발기를 �
 
 |![Monolitic](/assets/images/static/180919/Monolithic.png){: width="50%" height="50%"}|
 |:--:|
-|Monolithic 구조|
+|쇼핑몰 Monolithic 구조|
+
+|![MSA](/assets/images/static/180919/MicroServices.png){: width="50%" height="50%"}|
+|:--:|
+|쇼핑몰 MSA 구조|
 
 ## MSA의 대표적인 장점
 1. 빌드 및 테스트 시간이 단축된다.  
