@@ -20,7 +20,7 @@ category: MSA
 물론 유레카 서버 콘솔에 링크된 엔드포인트로 접근이 가능하다. 하지만 이전 포스트에서 말한 **Service Discovery 자동화**를 위해서는 SERVICE ID만으로 엔드포인트 접근이 가능해야 한다. 그래서 필요한 것이 **ZUUL Proxy API GATEWAY**이다.
 
 ## ZUUL이란 무엇?
-ZUUL은 게이트웨이 서비스 또는 Edge 서비스로서 마이크로서비스 라우팅, 모이터링, 에러처리, 보안 등을 책임진다. ZUUL에서 마이크로서비스를 라우팅하는 과정에서 pre filter, route filter, post filter를 거치고 에러 발생 시, error filter를 거친다. 각 필터는 개발자가 자유롭게 커스터마이징 가능하여 로깅, 인증, 모니터링 등 목적에 맞게 개발 할 수 있다.
+ZUUL은 게이트웨이 서비스 또는 Edge 서비스로서 마이크로서비스 라우팅, 모이터링, 에러처리, 보안 등을 책임진다. ZUUL은 마이크로서비스를 라우팅하는 과정에서 pre filter, route filter, post filter를 거치고 에러 발생 시, error filter를 거친다. 각 필터는 개발자가 자유롭게 커스터마이징 가능하여 로깅, 인증, 모니터링 등 목적에 맞게 개발 할 수 있다.
 
 |![ZUUL Request Life Cycle](/assets/images/static/180930/Request-Lifecycle.png)|
 |:--:|
@@ -35,12 +35,12 @@ ZUUL은 게이트웨이 서비스 또는 Edge 서비스로서 마이크로서비
 * ZUUL
 
 여기서 ZUUL인데 왜 Eureka Client에 필요한 Eureka Discovery가 필요할까?  
-이전 포스팅에서 **Eureka(유레카)에 대한 간단한 설명**에 언급한 4번을 다시 한번 보자.
+이전 포스팅의 **Eureka(유레카)에 대한 간단한 설명**에 언급한 4번을 다시 한번 보자.
 ```
 4. 유레카 클라이언트는 서버로부터 레지스트리 정보를 읽어와 로컬에 캐시한다. 
 이후 클라이언트는 로컬에 캐시된 레지스트리 정보를 이용해서 필요한 다른 서비스를 찾을 수 있게된다.
 ```
-ZUUL은 Eureka Server에 등록된 서비스들의 ID를 통해 접근하기 위해서는 각 서비스들의 등록 정보를 알아야 한다. 그래서 ZUUL을 Eureka Client로 등록하여 Eureka Server에서 등록정보를 로컬에 캐시하고 그 정보를 바탕으로 service id - service enpoint 매핑이 가능한것.
+ZUUL은 Eureka Server에 등록된 서비스들의 ID를 통해 접근하기 위해 각 서비스들의 등록 정보를 알아야 한다. 그래서 ZUUL을 Eureka Client로 등록하여 Eureka Server의 등록정보를 로컬에 캐시하고, 그 정보를 바탕으로 service id - service enpoint 매핑이 가능한것.
   
 Spring Initializr로 생성된 ZUUL 프로젝트는 다음과 같은 디렉토리 구조를 갖는다.
 ```
@@ -89,7 +89,7 @@ ribbon.ConnectTimeout=30000
 ribbon.ReadTimeout=30000
 ```
 
-옵션 설정이 끝나며 메인클래스인 SpringCloudZuulApplication.java에 **@EnableZuulProxy**, **@EnableEurekaClient** 어노테이션을 추가한다. 다시 한번 ZUUL을 Eureka Client로 설정하는 이유를 설명하자면, Eureka Server에 등록된 서비스들의 정보를 ZUUL에 캐싱하여 ZUUL을 통해 엔드포인트에 접근하기 위함이다.
+옵션 설정이 끝나면 메인클래스인 SpringCloudZuulApplication.java에 **@EnableZuulProxy**, **@EnableEurekaClient** 어노테이션을 추가한다. 다시 한번 ZUUL을 Eureka Client로 설정하는 이유를 설명하자면, Eureka Server에 등록된 서비스들의 정보를 ZUUL에 캐싱하여 ZUUL을 통해 엔드포인트에 접근하기 위함이다.
 ```java
 @EnableZuulProxy
 @EnableEurekaClient
