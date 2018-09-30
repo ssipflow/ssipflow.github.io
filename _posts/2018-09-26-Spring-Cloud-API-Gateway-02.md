@@ -91,7 +91,7 @@ public class EurekaServerApplication {
 ```
 
 이제 Eureka Server 준비는 끝났다. Eureka Server를 실행하면 다음과 같은 웹콘솔을 확인할 수 있다.
-![Console](/assets/images/static/180926/eureka_server_console.png){:width="90%" height="90%" margin="auto"}
+![Console](/assets/images/static/180926/Eureka_server_console.png){:width="90%" height="90%" margin="auto"}
 
 ## Erueka 시작하기 - Eureka Client
 Eureka Server를 만들었으니 이제 유레카 서버에 등록할 유레카 클라이언트를 만들 차례이다. 유레카 서버에 등록되는 클라이언트는 기본적으로 운영에 필요한 서비스이기 때문에 간단한 API를 대상으로 진행하려고 한다.
