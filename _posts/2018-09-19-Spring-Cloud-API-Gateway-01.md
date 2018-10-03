@@ -56,3 +56,10 @@ MSA는 독립적으로 존재하는 서비스 간의 API GATEWAY를 통한 HTTP 
 
 ### Reference
 * [스프링 5.0 마이크로 서비스 2/e](https://book.naver.com/bookdb/book_detail.nhn?bid=13270981) - 에이콘 출판사
+
+
+## API Gateway (Eureka + ZUUL) 개발기
+* [API Gateway (Eureka + ZUUl) 개발기 \#1](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-01/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#2](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-02/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#3](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-03/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#4](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-04/)

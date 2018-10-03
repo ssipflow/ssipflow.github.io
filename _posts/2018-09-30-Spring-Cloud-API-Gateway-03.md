@@ -122,6 +122,8 @@ ZUUL에서 /actuator/routes에 접속하면 ([http://localhost:9999/actuator/rou
 * [SpringCloud-Zuul](https://github.com/ssipflow/SampleProjects/tree/master/SpringCloud/SpringCloud-Zuul)
 
 
-## 참조
+## API Gateway (Eureka + ZUUL) 개발기
 * [API Gateway (Eureka + ZUUl) 개발기 \#1](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-01/)
 * [API Gateway (Eureka + ZUUl) 개발기 \#2](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-02/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#3](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-03/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#4](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-04/)

@@ -185,5 +185,8 @@ API 서비스인 유레카 클라이언트가 완성됐다. 유레카 서버가 
 * [SampleAPI (Eureka Client)](https://github.com/ssipflow/SampleProjects/tree/master/SpringCloud/SampleAPI)
 
 
-## 참조
+## API Gateway (Eureka + ZUUL) 개발기
 * [API Gateway (Eureka + ZUUl) 개발기 \#1](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-01/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#2](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-02/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#3](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-03/)
+* [API Gateway (Eureka + ZUUl) 개발기 \#4](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-04/)
