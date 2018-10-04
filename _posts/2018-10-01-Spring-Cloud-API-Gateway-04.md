@@ -199,53 +199,53 @@ Eureka, Marathon REST API를 변수로 받을수 있도록 자신의 환경에 �
 마지막으로 RegisterExecutor에서 실행하는 스레드인 RegisterTask.java를 살펴보자. RegisterTask.java는 Marathon task들의 정보를 Eureka 등록 포맷으로 변환하여 Eureka에 등록하는 서비스 로직이다. REST API를 위한 bean은 미리 구성해 두었다.  
 여기서 주의할점에 대해 알아보자
 
-    * leaseInfo의 durationInSecs을 30으로 지정하여 30초 간격으로 서비스를 확인하여 죽었을 경우 Eureka에서 삭제하도록 설정  
+* leaseInfo의 durationInSecs을 30으로 지정하여 30초 간격으로 서비스를 확인하여 죽었을 경우 Eureka에서 삭제하도록 설정  
 
-        ```java
-        leaseInfo.put("durationInSecs", "30");
-        ```
+    ```java
+    leaseInfo.put("durationInSecs", "30");
+    ```
 
-    * Marathon appID에 그룹명이 포함되어 있는 경우 서비스 ID에 group 명을 포함  
+* Marathon appID에 그룹명이 포함되어 있는 경우 서비스 ID에 group 명을 포함  
 
-        ```java
-        String[] dummy = task.getAppId().split("/");
-        String app = "";
-        String name = dummy[dummy.length - 1];
+    ```java
+    String[] dummy = task.getAppId().split("/");
+    String app = "";
+    String name = dummy[dummy.length - 1];
 
-        String prefix = "";
-        if (dummy.length > 2) {
-            for (int i = 0; i < dummy.length - 1; i++)
-                prefix = dummy[i] + "_";
-        }
-        name = prefix + name;
-        ```
+    String prefix = "";
+    if (dummy.length > 2) {
+        for (int i = 0; i < dummy.length - 1; i++)
+            prefix = dummy[i] + "_";
+    }
+    name = prefix + name;
+    ```
 
-    * Eureka에 등록된 서비스의 접속 Endpoint는 hostName, port 에서 결정  
-    
-        ```java
-        register.setHostName(hostName);
-        .
-        .
-        .
-        for (int i = 0; i < task.getPorts().size(); i++) {
-            port.put("$", Integer.toString(task.getPorts().get(i)));
-            port.put("@enabled", "true");
-            metadata.put("management.port", Integer.toString(task.getPorts().get(i)));
+* Eureka에 등록된 서비스의 접속 Endpoint는 hostName, port 에서 결정  
 
-            register.setMetadata(metadata);
-            register.setPort(port);
-            register.setInstanceId(hostName + ":" + task.getPorts().get(i));
-            register.setLeaseInfo(leaseInfo);
+    ```java
+    register.setHostName(hostName);
+    .
+    .
+    .
+    for (int i = 0; i < task.getPorts().size(); i++) {
+        port.put("$", Integer.toString(task.getPorts().get(i)));
+        port.put("@enabled", "true");
+        metadata.put("management.port", Integer.toString(task.getPorts().get(i)));
 
-            instance.setInstance(register);
-            
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            String reqBody = Util.beanToJson(instance);
+        register.setMetadata(metadata);
+        register.setPort(port);
+        register.setInstanceId(hostName + ":" + task.getPorts().get(i));
+        register.setLeaseInfo(leaseInfo);
 
-            restTemplate.exchange(eurekaEndpoint+name, HttpMethod.POST, new HttpEntity<String>(reqBody, headers), String.class);
-        }
-        ```
+        instance.setInstance(register);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String reqBody = Util.beanToJson(instance);
+
+        restTemplate.exchange(eurekaEndpoint+name, HttpMethod.POST, new HttpEntity<String>(reqBody, headers), String.class);
+    }
+    ```
 
  이제 Eureka Client, Side-car가 필요없는 Eureka Server가 완성됐다. Docker로 빌드하여 DC/OS에 배포하면 다음과 같이 Eureka Client 없이 서비스들이 등록된 Eureka Server를 확인할 수 있을것이다.
 
