@@ -9,10 +9,8 @@ comments: false
 E-MAIL: [ssipflow@gmail.com](mailto:ssipflow@gmail.com)  
 GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)  
     
-이제 막 2년차에 접어든 주니어 개발자.  
+막 2년차에 접어든 주니어 개발자.  
 기술력에 욕심이 많아 도메인이 될만한 기술을 계속해서 찾고있는 중.  
-최근 관심분야는 Kubernetes, MSA, DevOps.  
-아키텍쳐, 개발 방법론에 관심이 많아 장기적으로 아키텍트로 발전하는것이 꿈.
 
 ## Education
 * 인하대학교 \| 2013.03 - 2016.02
@@ -24,13 +22,14 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
     * C언어프로그래밍, 자료구조, 소프트웨어공학 등 이수
 
 ## Skill Set
-* Language : JAVA, Python, C/C++
+* Language : GO, JAVA, Python, C/C++
 * Framework : Spring Boot
 * DB : MySQL, InfluxDB, Redis, MongoDB
 * ETC : Kubernetes, MESOS, DC/OS, Docker, Netflix OSS
 
 ## Career & Experience
-* NexCloud \| Back-End Developer \| 2017.10.10 - 현재
+* Sentbe \| Back-End Developer \| 2019.02.11 - 현재
+* NexCloud \| Back-End Developer \| 2017.10.10 - 2019.01.31
     * Mesos Crawling Agent \| 2018.05 - 2018.06
         * Docker 기반 DC/OS, MESOS 모니터링 서비스인 NexClipper의 Agent 개발
         * REST 방식으로 Mesos API를 크롤링하여 Metrics 데이터 수집
