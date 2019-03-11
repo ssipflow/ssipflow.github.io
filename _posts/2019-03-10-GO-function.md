@@ -174,7 +174,85 @@ func main() {
     SliceParams([]int{1, 2, 3, 4, 5})	
     VariableParams(1, 2, 3, 4, 5)
 
-    // 그냥 슬라이스 하나를 넘기면 그 슬라이스 하나를 담고 있는 슬라이스로 만들어 넘겨주기 때문에 점 셋을 붙여 슬라이스를 가변인자로 전달 가능 하다.
+    // 슬라이스 하나를 넘기면 그 슬라이스 하나를 담고 있는 슬라이스로 만들어 넘겨주기 때문에 점 셋을 붙여 슬라이스를 가변인자로 전달 가능 하다.
     VariableParams(nums...)
 }
 ```
+
+# 값으로 취급되는 함수
+GO 언어에서 함수는 일급 시민 (First-class citizen)으로 분류되어 함수를 값으로써 변수에 담을 수 있고 다른 함수로 넘기거나 돌려받을 수 있다.
+
+## 함수 리터럴
+이름이 없는 순수한 함수의 값을 함수 리터럴(Function literal) 이라 부르고, 익명 함수라고 부를 수 있다. 함수형 언어에서 람다 함수와 동일한 방법으로 사용할 수 있다. 다음 코드는 두개 인자의 합을 반환하는 add 함수와 함수 리터럴이다.
+```go
+// add 함수
+func add(a, b int) int {
+    return a + b
+}
+
+// 함수리터럴
+func (a, b int) int {
+    return a + b
+}
+```
+
+이러한 리터럴은 변수에 전달하여 변수를 함수처럼 사용할 수 있다.
+```go
+func Example_funcLiteralVal() {
+    printHello := func() {
+        fmt.Println("Hello!")
+    }
+    printHello()    // Hello!
+}
+```
+## 고계함수 (고차함수)
+High-order function 함수 리터럴을 넘기고 받는것을 고계함수라 한다. 인자로 함수를 넘겨받아 상황에 맞게 재정의 하여 사용할 수 있다.
+
+```go
+func Example(num int, f func(param int)) {
+    if num == 0 {
+        f(0)
+    } else {
+        f(1)
+    }
+}
+
+func main() {
+    // 다음 결과는 1을 출력한다.
+    Example(1, func(param int) {
+        fmt.Println(param)
+    })
+
+    // 다음 결과는 0을 출력한다
+    Example(0, func(param int) {
+        fmt.Println(param)
+    }) 
+}
+```
+
+## 클로저 (closure) / 생성기 (generator)
+클로저는 리터럴을 메모리 스택에 할당하여 사용하는 코드의 패턴? 이라 할 수 있다. 이 클로저를 리터럴로 반환하여 생성기 (generator)를 이용할 수 있다.
+```go
+func intSeq() func() int {
+    // 외부 변수 i를 사용하는 클로저(closure) 와 이를 반환하는 생성기(generator)
+    i := 0
+    return func() int {
+        i++
+        return i
+    }
+}
+
+func main() {
+    nextInt := intSeq()
+
+    fmt.Println(nextInt())  // 1
+    fmt.Println(nextInt())  // 2
+    fmt.Println(nextInt())  // 3
+
+    newInts := intSeq()
+    fmt.Println(newInts())  // 1
+    fmt.Println(nextInt())  // 4
+}
+```
+위 샘플코드의 ```intSeq()``` 는 리터럴을 반환하는 함수이다. main 함수의 ```nextInt``` 는 ```intSeq()``` 에서 반환하는 리터럴을 받는 **로컬 변수** 이다. ```initSeq()```는 이 로컬 변수에 할당되어 메모리의 stack 영역에 저장되기 때문에 heap 영역의 변수들까지 접근이 가능하다. 물론 initSeq() 의 리터럴은 새로운 변수에 할당하면 내부 변수들이 새로 할당되어 실행한다. ```newInts``` 라는 새로운 로컬변수에 리터럴을 할당하면 initSeq() 내부의 새로운 변수가 초기화 되어 ```newInts()``` 는 1부터 시작됨을 확인할 수 있다.
+
