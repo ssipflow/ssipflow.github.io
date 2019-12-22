@@ -102,7 +102,7 @@ analytics:
 author:
   name             : "Nelson Kim"
   avatar           : /assets/images/bio/avatar1.png # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Junior Back-End Developer"
+  bio              : "Back-End Developer"
   location         : "Incheon & Seoul, Korea"
   email            : "ssipflow@gmail.com"
   uri              :

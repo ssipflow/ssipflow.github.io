@@ -9,8 +9,9 @@ comments: false
 E-MAIL: [ssipflow@gmail.com](mailto:ssipflow@gmail.com)  
 GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)  
     
-막 2년차에 접어든 주니어 개발자.  
-기술력에 욕심이 많아 도메인이 될만한 기술을 계속해서 찾고있는 중.  
+막 3년차에 접어든 주니어 개발자.  
+근본을 다지려는 개발자.  
+사용중인 키보드: HHKB Pro2, FC660C 저소음 모델, FC660M Red, FC750RPD Red
 
 ## Education
 * 인하대학교 \| 2013.03 - 2016.02
