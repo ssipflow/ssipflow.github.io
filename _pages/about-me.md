@@ -33,8 +33,27 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
     * Sentbe PG \| Back-End Developer \| 2020.12 - 현재
         * 가맹점, 어드민 대시보드 및 정산시스템 설계
         * 결제내역 대시보드 API 개발
-    * Sentbiz B2B \| Back-End Developer |\ 2019.12 - 현재 
-        * 
+
+    * Sentbiz B2B 해외송금 서비스\| Back-End Developer |\ 2019.12 - 현재 
+        * B2B 해외송금 서이비스 개발 및 운영
+        * Clean Architecture 적용 -> 가독성, 서비스 의존성 개선
+        * DDD -> 설계일정 단축 및 비개발 담당자와의 커뮤니케이션 향상
+        * 비동기 메세지 큐 개발 -> Batch Process 에 비하여 안정적인 메세지 큐 운영
+        * 법인 기업 가입 기능 개발 -> 기업 가입 절차 개선
+        * KRW wallet 구축 -> 기업 자금 관리 업무 개선
+        * 회계자료, 한국은행 보고서 등 백오피스 기능 개발
+        * 폐쇄망 서비스 운영환경 구축
+        * Go, GRPC, Postgres, Redis, Vault, Minio, CentOS
+
+    * Sentbe B2C 해외송금 서비스 \| Back-End Developer |\ 2019.02 - 현재
+        * B2C 해외송금 서비스 개발 및 운영
+        * 자사 해외송금 API 연동
+        * SMS / 알림톡 알림 서비스 개발
+        * Batch Process 개발 -> 실시간 송금상태 추적
+        * 회계자료, 한국은행 보고서 등 백오피스 기능 개발
+        * Docker Swarm, Vault, Redis 등 운영환경 구축
+        * Go, GRPC, Postgres, Redis, Vault, Minio, CentOS
+
 * NexCloud \| Back-End Developer \| 2017.10.10 - 2019.01.31
     * Mesos Crawling Agent \| 2018.05 - 2018.06
         * Docker 기반 DC/OS, MESOS 모니터링 서비스인 NexClipper의 Agent 개발
