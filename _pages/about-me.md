@@ -45,7 +45,7 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
         * 폐쇄망 서비스 운영환경 구축
         * Go, GRPC, Postgres, Redis, Vault, Minio, CentOS
 
-    * Sentbe B2C 해외송금 서비스 \| Back-End Developer |\ 2019.02 - 현재
+    * Sentbe B2C 해외송금 서비스 \| Back-End Developer \| 2019.02 - 현재
         * B2C 해외송금 서비스 개발 및 운영
         * 자사 해외송금 API 연동
         * SMS / 알림톡 알림 서비스 개발
