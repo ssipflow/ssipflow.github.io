@@ -35,7 +35,7 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
         * 결제내역 대시보드 API 개발
 
     * Sentbiz B2B 해외송금 서비스\| Back-End Developer \| 2019.12 - 현재
-        * B2B 해외송금 서이비스 개발 및 운영
+        * B2B 해외송금 서비스 개발 및 운영
         * Clean Architecture 적용 -> 가독성, 서비스 의존성 개선
         * DDD -> 설계일정 단축 및 비개발 담당자와의 커뮤니케이션 향상
         * 비동기 메세지 큐 개발 -> Batch Process 에 비하여 안정적인 메세지 큐 운영
