@@ -9,27 +9,32 @@ comments: false
 E-MAIL: [ssipflow@gmail.com](mailto:ssipflow@gmail.com)  
 GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)  
     
-막 3년차에 접어든 주니어 개발자.  
-근본을 다지려는 개발자.  
-사용중인 키보드: HHKB Pro2, FC660C 저소음 모델, FC660M Red, FC750RPD Red
+막 4년차에 접어든 주니어 개발자.  
+근본, 성능, 가독성을 중요하게 여기는 개발자.
+늘 발전을 원하는 개발자.
 
 ## Education
 * 인하대학교 \| 2013.03 - 2016.02
-    * 컴퓨터정보공학과 학사 졸업 \| Major GPA 전공 3.1/4.5 \| GPA 2.86/4.5
+    * 컴퓨터정보공학과 학사 졸업
     * 네트워크, 운영체제, 유닉스시스템프로그래밍, 데이터베이스, 알고리즘, 객체지향프로그래밍, 자바프로그래밍, 웹프로그래밍 등 이수
 
 * 백석대학교 \| 2007.03 - 2013.02
-    * 소프트웨어공학과 중퇴 -> 인하대학교 컴퓨터정보공학과 편입 \| Major GPA 전공 3.19/4.5 \| GPA 3.03/4.5
+    * 소프트웨어공학과 중퇴 -> 인하대학교 컴퓨터정보공학과 편입
     * C언어프로그래밍, 자료구조, 소프트웨어공학 등 이수
 
 ## Skill Set
-* Language : GO, JAVA, Python, C/C++
-* Framework : Spring Boot
-* DB : MySQL, InfluxDB, Redis, MongoDB
-* ETC : Kubernetes, MESOS, DC/OS, Docker, Netflix OSS
+* Language : GO, JAVA, Python, C/C++, JS
+* Framework : Spring Boot, Clean Architecture, jQuery
+* DB : MySQL, InfluxDB, Redis, PostgreSQL
+* ETC : GRPC, Kubernetes, MESOS, DC/OS, Docker, Docker Swarm, Netflix OSS, CentOS
 
 ## Career & Experience
 * Sentbe \| Back-End Developer \| 2019.02.11 - 현재
+    * Sentbe PG \| Back-End Developer \| 2020.12 - 현재
+        * 가맹점, 어드민 대시보드 및 정산시스템 설계
+        * 결제내역 대시보드 API 개발
+    * Sentbiz B2B \| Back-End Developer |\ 2019.12 - 현재 
+        * 
 * NexCloud \| Back-End Developer \| 2017.10.10 - 2019.01.31
     * Mesos Crawling Agent \| 2018.05 - 2018.06
         * Docker 기반 DC/OS, MESOS 모니터링 서비스인 NexClipper의 Agent 개발
