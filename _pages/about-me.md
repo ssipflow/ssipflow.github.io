@@ -35,7 +35,7 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
         * 결제내역 대시보드 API 개발
 
     * Sentbiz B2B 해외송금 서비스\| Back-End Developer \| 2019.12 - 현재
-        * B2B 해외송금 서이비스 개발 및 운영
+        * B2B 해외송금 서비스 개발 및 운영
         * Clean Architecture 적용 -> 가독성, 서비스 의존성 개선
         * DDD -> 설계일정 단축 및 비개발 담당자와의 커뮤니케이션 향상
         * 비동기 메세지 큐 개발 -> Batch Process 에 비하여 안정적인 메세지 큐 운영
@@ -90,32 +90,3 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
 * 한국철도기술연구원 \| 산학현장실습 인턴 \| 2015.07 - 2015.08
     * 시뮬레이션 프로그램 코드 분석 \| 2015.07 - 2015.08  
     미니트램 주행시뮬레이션 프로그램 (Python) 코드 분석 및 연구개발에 활용할 프로그램 명세서 작성
-
-## Toy Project
-* Dia Fit \| 2017.05 - 2017.06
-    * 헬스장 PT 관리 시스템
-    * Spring Framework 스터디 목적
-    * Open API를 이용하기 보다 직접 기능을 구현하는것에 목적을 둠
-    * AJAX 비동기 통신을 이용하여 Single Page Application 구현
-    * Spring Web Socket을 통한 TCP/IP 메신저 기능 구현
-    * [https://github.com/ssipflow/DiaFit](https://github.com/ssipflow/DiaFit)
-
-* Style Follow \| 2017.02 - 2017.03
-    * 패션 추천 플랫폼
-    * Servlet/JSP MVC 모델 이해가 목적
-    * HTML5 geolocation 객체로 현재 위치 좌표 확인
-    * OpenWeatherMap API를 이용하여 현재 좌표의 날씨 정보 확인
-    * 추천 수 및 사전에 지정한 관심 스타일에 따라 포스팅을 보여주는 쿼리문 적용
-    * AJAX 비동기 통신을 활용하여 Single Page Application 구현
-    * 비동기 통신으로 스크롤 로딩을 구현하여 UI/UX 편의성 제공
-    * [https://github.com/ssipflow/StyleFollow](https://github.com/ssipflow/StyleFollow)
-
-* Smart Cycle \| 2015.09 - 2015.12
-    * 인하대학교 학내 캡스톤 설계
-    * 실내 자전거를 운동이 아닌 게임으로 체험하기 위한것이 목표
-    * 자전거 속도를 측정하기 위한 Arduino 센서 개발
-    * AWS, PHP, MySQL 데이터베이스 서버 개발
-    * IoT를 활용한 프로젝트로써 데모시연 초반 좋은 반응을 얻었지만, 시연 중 발경하지 못한 버그가 발생하여 아쉬움으로 남은 프로젝트
-    * 플레이 영상 - [https://youtu.be/9MjocXsIAJY](https://youtu.be/9MjocXsIAJY)
-    * 플레이 화면 - [https://youtu.be/2WeWuNyNaus](https://youtu.be/2WeWuNyNaus)
-    * [https://github.com/ssipflow/SmartCycle](https://github.com/ssipflow/SmartCycle)
