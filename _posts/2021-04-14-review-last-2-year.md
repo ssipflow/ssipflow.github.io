@@ -41,6 +41,7 @@ category: GO
 3. MSA 에 최적화 되어 있다.  
     * gRPC 는 정의한 protocol을 컴파일한 protobuf (stub) 를 호출하여 통신 한다.
     * gRPC 서버에 stub 의 구현체가 존재하며, 이 구현체는 언어의 제약을 받지 않는다. (polyglot 가능)
+    
 ### 단점
 1. 런닝커브가 길다.
 2. REST API 에 적합하지 않다.  
