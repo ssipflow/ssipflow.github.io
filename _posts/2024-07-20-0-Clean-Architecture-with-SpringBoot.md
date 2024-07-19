@@ -12,6 +12,7 @@ tags:
     - SOLID
     - Spring Boot
 category: Clean Architecture
+timezone: Asia/Seoul
 ---
 
 # Spring Boot와 Clean Architecture
