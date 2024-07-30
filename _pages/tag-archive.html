@@ -8,7 +8,7 @@ author_profile: true
 <ul>
   {% for tag in site.tags %}
     <span>
-      <a href="#{{ tag | first }}">
+      <a href="#{{ tag | first | slugify }}">
         {{ tag | first }}
       </a> &nbsp;&nbsp;&nbsp;
     </span>
