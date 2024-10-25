@@ -9,9 +9,13 @@ comments: false
 E-MAIL: [ssipflow@gmail.com](mailto:ssipflow@gmail.com)  
 GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)  
     
-* 핀테크, 블록체인 백엔드 개발자.
-* 근본, 성능, 가독성을 중요하게 여기는 개발자.
-* 늘 발전을 원하는 개발자.
+* 비즈니스 로직이 한눈에 보이는 간결한 코드를 지향합니다.
+* 평균 60~70%의 테스트 커버리지를 유지합니다.
+* 블록체인 DeFi 자금 운용 백오피스 서비스 개발 경험 보유
+* B2B/B2C 해외송금 서비스 개발 및 운영 경험, 핀테크 도메인 전문성 보유
+* 클린 아키텍처 도입을 통한 안정성, 성능, 가독성 개선
+* 도메인 기반 용어 활용으로 개발자/비개발자 간 커뮤니케이션 개선
+* 새로운 기술에 빠르게 적응하고 적용하는 개발자
 
 ## Education
 * 인하대학교 \| 2013.03 - 2016.02
@@ -33,39 +37,50 @@ GitHub: [https://github.com/ssipflow](https://github.com/ssipflow)
     * InterChain 모니터링 시스템 개발 \| Back-End Developer \| 2022.09 - 2023.12
         * EVM ViewContract를 호출하여 InterChain 노드 운영 현황 데이터 수집
         * 노드 운영 현황 metric 가공 및 API 제공
+        * TypeScript, NestJS, TypeORM, MySQL, AWS S3
 
     * 사내 컨텐츠 운영서비스 개발 및 운영 \| Full Stack Developer \| 2022.07 - 2023.12
         * 오지스 운영 Front-End 서비스를 위한 컨텐츠 생산 및 관리 툴
         * Secure coding 으로 ISMS 인증
+        * ViewContract 호출로 운영풀 모니터링 메트릭 수집 및 API 제공
+        * NodeJS, MySQL, AWS S3
 
     * 재무모니터링 시스템 개발 및 운영 \| Back-End Developer \| 2022.04 - 2023.12
-        * 자금운영 현황 파악을 위한 Cron 및 API 서비스
-        * 기존 React 에서 직접 지갑 주소를 호출하여 생성하는 회계 데이터 자동화
+        * 자금 운용 현황 파악을 위한 Cron 및 API 서비스
+        * 기존 React 에서 직접 지갑 주소를 호출하여 생성하던 회계 데이터 자동화
         * Front-End 비즈니스 로직을 서버로직으로 변경
-        * 코드 가독성 유지보수성을 높이기 위해 NestJS 도입
-        * Caver, EVM Client를 사내 자금 운용중인 DeFi 상품별 ViewContract 호출 및 데이터 가공
-        * Clean Architecture 도입
+        * 코드의 가독성 및 유지보수성을 높히기 위해 NestJS 적용
+        * Clean Architecture, 유닛테스트 도입
+        * Caver, EVM Client 를 사내 자금 운용 중인 DeFi 상품별 ViewContract 호출 및 데이터 가공
         * Klayswap, Meshswap 상품별 현황 모니터링
-        * DeFi 토큰 종가 데이터 수집
+        * DeFi 시스템 토큰 종가 데이터 수집
+        * TypeScript, NestJS, TypeORM, MySQL, AWS S3
 
-* Sentbe \| FinTech Back-End Developer \| 2019.02.11 - 현재
+* Sentbe \| FinTech Back-End Developer \| 2019.02 - 2022.04
     * Sentbe PG 백소피스 API 개발 \| Back-End Developer \| 2021.12 - 2022.03
         * PG 서비스 관리자 백오피스 API 개발
+        * 계층 분리를 위해 QueryDSL을 적용하여 JPA 의존성 개선
+        * Swagger API Docs 를 활용하여 API 문서화
+        * Spring Boot, QueryDSL, Spring Data JPA, Postgres
 
-    * Sentbe FDS \| Back-End Developer \| 2021.10 - 2021.11
-        * 부정거래 탐지시스템 API (Fraud Detection System) API 개발 및 운영
-        * 결제내역 대시보드 API 개발
+    * Sentbe FDS \| Back-End Developer \| 2021.10 - 2022.04
+        * 부정거래 탐지 시스템 API (Fraud Detection System) API 개발 및 운영
+        * 서비스 API 개발 및 대시보드 API 설계
+        * API Key를 적용하여 권한 인증
+        * 기존 Golang B2B 시스템과의 호환을 위해 vault configuration 사용
+        * Spring Data JPA 적용
+        * Senbe 최초 Spring 프로젝트
+        * Spring Boot, Spring Security, Spring Cloud Config Server, Spring Data JPA, Postgres
 
-    * Sentbiz B2B 해외송금 서비스\| Back-End Developer \| 2019.11 - 2022.03
-        * B2B 해외송금 서비스 개발 및 운영
-        * Clean Architecture 적용 -> 가독성, 서비스 의존성 개선
-        * 설계일정 단축 및 비개발 담당자와의 커뮤니케이션 향상
-        * 비동기 메세지 큐 개발 -> Batch Process 에 비하여 안정적인 메세지 큐 운영
-        * 법인 기업 가입 기능 개발 -> 기업 가입 절차 개선
-        * KRW wallet 구축 -> 기업 자금 관리 업무 개선
-        * 회계자료, 한국은행 보고서 등 백오피스 기능 개발
+    * Sentbiz B2B 해외송금 서비스\| Back-End Developer \| 2019.11 - 2022.04
+        * Sentbe B2B 서비스 개발 및 운영
+        * Clean Architecture 적용
+        * 의존성 주입을 적극 활용하여 일관성 있는 코드 구조 정립
+        * 비동기 messaging queue 서비스 구축
+        * 법인기업 가입 서비스 구축
+        * 회계자료, 한국은행 보고서 등 백오피스 기능 구현
         * 폐쇄망 서비스 운영환경 구축
-        * Go, GRPC, Postgres, Redis, Vault, Minio, CentOS
+        * Go, GRPC, Clean Architecture, Postgres ORM
 
     * Sentbe B2C 해외송금 서비스 \| Back-End Developer \| 2019.02 - 2021.01
         * B2C 해외송금 서비스 개발 및 운영
