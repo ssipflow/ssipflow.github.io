@@ -4,7 +4,7 @@ layout: single
 author_profile: true
 comments: true
 share: true
-related: false
+related: true
 date: '2019-03-10'
 tags:
     - Language

@@ -4,7 +4,7 @@ layout: single
 author_profile: true
 comments: true
 share: true
-related: false
+related: true
 date: '2024-07-20'
 tags:
     - Design Pattern

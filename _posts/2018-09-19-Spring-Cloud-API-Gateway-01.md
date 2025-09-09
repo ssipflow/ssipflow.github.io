@@ -4,7 +4,7 @@ layout: single
 author_profile: true
 comments: true
 share: true
-related: false
+related: true
 date: '2018-09-19'
 tags:
     - Architecture

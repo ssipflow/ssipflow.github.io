@@ -8,3 +8,22 @@
 // @use migration will be handled by theme maintainers
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+// Hide Disqus recommendations container
+#disqus-recommendations,
+.disqus-recommendations,
+[id*="recommendation"],
+[class*="recommendation"] {
+  display: none !important;
+}
+
+// Reduce excessive spacing in page inner wrap
+.page .page__inner-wrap {
+  padding: 0 1rem;
+  margin: 0;
+}
+
+// Adjust article page spacing
+.page {
+  padding: 1rem 0;
+}
