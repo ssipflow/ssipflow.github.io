@@ -59,8 +59,8 @@ reCaptcha:
 atom_feed:
   path                   : # blank (default) uses feed.xml
 search                   : true # true, false (default)
-search_full_content      : # true, false (default)
-search_provider          : google # lunr (default), algolia, google
+search_full_content      : true # true, false (default)
+search_provider          : lunr # lunr (default), algolia, google
 algolia:
   application_id         : # YOUR_APPLICATION_ID
   index_name             : # YOUR_INDEX_NAME
@@ -101,7 +101,7 @@ analytics:
 # Site Author
 author:
   name             : "Nelson Kim"
-  avatar           : /assets/images/bio/avatar1.png # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : /assets/images/bio/avatar2.png # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Back-End Developer"
   location         : "Incheon & Seoul, Korea"
   email            : "ssipflow@gmail.com"
