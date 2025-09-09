@@ -40,6 +40,7 @@
 .site-title {
   display: -webkit-box;
   display: flex;
+  flex-wrap: wrap;
   padding: 0.5rem 0;
   align-self: stretch;
   -webkit-box-align: center;
@@ -47,12 +48,28 @@
   font-weight: bold;
   z-index: 20;
   font-size: 1.6rem;
+  white-space: nowrap;
+
+  @include breakpoint($small) {
+    flex-wrap: nowrap;
+  }
+
+  @include breakpoint(max-width $small - 1px) {
+    justify-content: center;
+    flex-direction: column;
+  }
 
   .site-logo {
     height: 4.5rem;
     width: auto;
     margin-right: 0.5rem;
     vertical-align: middle;
+    flex-shrink: 0;
+
+    @include breakpoint(max-width $small - 1px) {
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
   }
 }
 
