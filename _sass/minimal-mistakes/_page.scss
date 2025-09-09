@@ -54,11 +54,19 @@
 
 .page__title {
   margin-top: 0;
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
   line-height: 1;
 
+  @include breakpoint($large) {
+    margin-bottom: 1em;
+  }
+
   & + .page__meta {
-    margin-top: -0.5em;
+    margin-top: 0;
+    
+    @include breakpoint($large) {
+      margin-top: -0.25em;
+    }
   }
 }
 
@@ -247,10 +255,16 @@
    ========================================================================== */
 
 .page__meta {
-  margin-top: 2em;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
   color: $muted-text-color;
   font-family: $sans-serif;
   font-size: $type-size-6;
+
+  @include breakpoint($large) {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
 
   p {
     margin: 0;
@@ -258,6 +272,31 @@
 
   a {
     color: inherit;
+  }
+}
+
+// Specific spacing for read time + metadata combination
+.page__meta:first-of-type {
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid $border-color;
+  
+  @include breakpoint($large) {
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+    padding-bottom: 0.75em;
+  }
+  
+  & + .page__meta {
+    margin-top: 0.5em;
+    padding-bottom: 0.75em;
+    border-bottom: 1px solid $border-color;
+    
+    @include breakpoint($large) {
+      margin-top: 0.75em;
+      padding-bottom: 1em;
+    }
   }
 }
 

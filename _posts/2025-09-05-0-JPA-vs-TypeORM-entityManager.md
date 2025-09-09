@@ -1,5 +1,5 @@
 ---
-title: \[JAP \#1\] JPA vs TypeORM - EntityManager
+title: \[JPA \#1\] JPA vs TypeORM - EntityManager
 layout: single
 author_profile: true
 comments: true

@@ -27,3 +27,69 @@
 .page {
   padding: 1rem 0;
 }
+
+// Custom social share button colors for dark theme - icon only style
+.page__share {
+  .btn--twitter,
+  .btn--linkedin {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    margin: 0 0.25rem;
+    color: $text-color;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    min-width: auto;
+    
+    &:hover {
+      background-color: $border-color;
+      transform: translateY(-2px);
+      transition: all 0.2s ease;
+    }
+  }
+  
+  .btn--twitter:hover {
+    color: #1d9bf0;
+  }
+  
+  .btn--linkedin:hover {
+    color: #0a66c2;
+  }
+}
+
+// Table wrapper with horizontal scroll
+.page__content {
+  table {
+    @include breakpoint(max-width $medium - 1px) {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      border: 1px solid $border-color;
+      
+      // Keep table structure intact
+      thead, tbody, tr {
+        display: table;
+        display: table-row-group;
+        display: table-row;
+        width: 100%;
+      }
+      
+      thead {
+        display: table-header-group;
+      }
+      
+      tbody {
+        display: table-row-group;
+      }
+      
+      tr {
+        display: table-row;
+      }
+      
+      th, td {
+        display: table-cell;
+        white-space: nowrap;
+      }
+    }
+  }
+}

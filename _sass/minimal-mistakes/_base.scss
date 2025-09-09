@@ -171,6 +171,12 @@ td > code {
   font-size: $type-size-6;
   background: $code-background-color;
   border-radius: $border-radius;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @include breakpoint(max-width $small - 1px) {
+    font-size: $type-size-7;
+  }
 
   &:before,
   &:after {

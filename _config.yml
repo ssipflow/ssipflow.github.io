@@ -102,8 +102,8 @@ analytics:
 author:
   name             : "Nelson Kim"
   avatar           : /assets/images/bio/avatar2.png # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Back-End Developer"
-  location         : "Incheon & Seoul, Korea"
+  bio              : "해외송금, 결제, 거래소 등 돈이 흐르는 서비스를 다뤄온 7년차 백엔드 개발자.<br/><strong>Golang</strong>, <strong>Spring</strong>, <strong>NestJS</strong> 기반으로 안정성과 확장성을 설계합니다."
+  location         : "Seoul & Incheon, Korea"
   email            : "ssipflow@gmail.com"
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"

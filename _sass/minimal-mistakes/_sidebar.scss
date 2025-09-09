@@ -114,6 +114,17 @@
    Author profile and links
    ========================================================================== */
 
+.author__top {
+  display: table;
+  width: 100%;
+  margin-bottom: 15px;
+
+  @include breakpoint($large) {
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
 .author__avatar {
   display: table-cell;
   vertical-align: top;
@@ -127,6 +138,7 @@
   }
 
   img {
+    min-width: 4.5rem;
     max-width: 110px;
     border-radius: 50%;
 
@@ -181,12 +193,17 @@
 
 .author__urls-wrapper {
   position: relative;
-  display: table-cell;
-  vertical-align: middle;
+  display: block;
+  width: 100%;
   font-family: $sans-serif;
   z-index: 10;
-  position: relative;
   cursor: pointer;
+
+  @include breakpoint($large) {
+    display: table-cell;
+    vertical-align: middle;
+    width: auto;
+  }
 
   li:last-child {
     a {
@@ -194,15 +211,54 @@
     }
   }
 
-  @include breakpoint($large) {
-    display: block;
-  }
-
   button {
     margin-bottom: 0;
+    display: none; // Hide on small screens
+    
+    @include breakpoint($large) {
+      display: none; // Also hide on large screens (original behavior)
+    }
+  }
+  
+  // Mobile GitHub/LinkedIn icons - show only on small screens
+  .author__urls--mobile {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    margin: 0 0 0 auto;
+    padding: 0;
+    gap: 0.3rem;
+    width: 50%;
+    position: static;
+    border: none;
+    background: transparent;
+    box-shadow: none;
 
     @include breakpoint($large) {
+      display: none; // Hide on large screens
+    }
+
+    // Remove speech bubble arrows for mobile
+    &:before,
+    &:after {
       display: none;
+    }
+
+    li {
+      margin: 0;
+      flex-shrink: 0;
+      border: none;
+    }
+
+    a {
+      font-size: 1.5rem;
+      color: $text-color;
+      padding: 0.25rem;
+      display: inline-block;
+      
+      &:hover {
+        color: $link-color-hover;
+      }
     }
   }
 }
@@ -225,14 +281,17 @@
     display: block;
   }
 
-  @include breakpoint($large) {
-    display: block;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
+  // Hide mobile icons version on large screens, show desktop version  
+  &:not(.author__urls--mobile) {
+    @include breakpoint($large) {
+      display: block;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
   }
 
   &:before {
