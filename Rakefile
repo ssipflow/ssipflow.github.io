@@ -1,4 +1,3 @@
-require "bundler/gem_tasks"
 require "jekyll"
 require "listen"
 
@@ -29,6 +28,33 @@ def listen_handler(base, options)
     end
   end
 end
+
+# Development server with live reload
+desc "Start Jekyll development server with live reload"
+task :dev do
+  exec "bundle exec jekyll serve --incremental --livereload"
+end
+
+# Basic server
+desc "Start Jekyll server"
+task :serve do
+  exec "bundle exec jekyll serve"
+end
+
+# Build site
+desc "Build Jekyll site"
+task :build do
+  exec "bundle exec jekyll build"
+end
+
+# Clean site
+desc "Clean Jekyll site"
+task :clean do
+  exec "bundle exec jekyll clean"
+end
+
+# Default task
+task :default => :dev
 
 task :preview do
   base = Pathname.new('.').expand_path

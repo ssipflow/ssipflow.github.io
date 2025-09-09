@@ -8,7 +8,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 3.8.3"
+gem "jekyll", "~> 4.3.0"
 
 # minimal-mistakes theme
 gem "minimal-mistakes-jekyll"
@@ -22,8 +22,12 @@ gem "minima", "~> 2.0"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.6"
+  gem "jekyll-feed", "~> 0.17"
 end
+
+# Add kramdown v2 and webrick for Jekyll 4
+gem "kramdown-parser-gfm"
+gem "webrick"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
