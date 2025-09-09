@@ -30,7 +30,15 @@
         <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
       {% endif %}
     </h2>
-    {% if post.read_time %}
+    {% if post.date %}
+      <p class="page__meta">
+        <i class="far fa-calendar" aria-hidden="true"></i> 
+        <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%Y년 %m월 %d일" }}</time>
+        {% if post.read_time %}
+          &nbsp;&nbsp;<i class="far fa-clock" aria-hidden="true"></i> {% include read-time.html %}
+        {% endif %}
+      </p>
+    {% elsif post.read_time %}
       <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> {% include read-time.html %}</p>
     {% endif %}
     {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
