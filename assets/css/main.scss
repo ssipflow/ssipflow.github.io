@@ -4,5 +4,7 @@
 
 @charset "utf-8";
 
+// Suppress Sass deprecation warnings for now
+// @use migration will be handled by theme maintainers
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
