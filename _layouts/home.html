@@ -6,8 +6,202 @@ layout: archive
 
 <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
 
-{% for post in paginator.posts %}
-  {% include archive-single.html %}
-{% endfor %}
+<div id="posts-container">
+  {% for post in paginator.posts %}
+    {% include archive-single.html %}
+  {% endfor %}
+</div>
 
-{% include paginator.html %}
+<!-- Loading indicator -->
+<div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">
+  <div class="loading-spinner"></div>
+  <p>Loading more posts...</p>
+</div>
+
+<!-- Hidden pagination data for JavaScript -->
+<script type="application/json" id="pagination-data">
+{
+  "currentPage": {{ paginator.page }},
+  "totalPages": {{ paginator.total_pages }},
+  "nextPage": {% if paginator.next_page %}{{ paginator.next_page }}{% else %}null{% endif %},
+  "baseUrl": "{{ site.paginate_path | replace: ':num', '' | replace: '//', '/' }}"
+}
+</script>
+
+<!-- Infinite scroll implementation -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Infinite scroll initialized');
+  
+  const paginationDataElement = document.getElementById('pagination-data');
+  if (!paginationDataElement) {
+    console.error('Pagination data not found');
+    return;
+  }
+  
+  const paginationData = JSON.parse(paginationDataElement.textContent);
+  const postsContainer = document.getElementById('posts-container');
+  const loadingIndicator = document.getElementById('loading-indicator');
+  
+  console.log('Pagination data:', paginationData);
+  console.log('Posts container:', postsContainer);
+  console.log('Loading indicator:', loadingIndicator);
+  
+  let isLoading = false;
+  let currentPage = paginationData.currentPage;
+  
+  // Hide original pagination
+  const originalPagination = document.querySelector('.pagination');
+  if (originalPagination) {
+    originalPagination.style.display = 'none';
+    console.log('Original pagination hidden');
+  }
+  
+  // Function to load more posts
+  async function loadMorePosts() {
+    console.log('loadMorePosts called, isLoading:', isLoading, 'currentPage:', currentPage, 'totalPages:', paginationData.totalPages);
+    
+    if (isLoading || currentPage >= paginationData.totalPages) {
+      console.log('Loading skipped - already loading or no more pages');
+      return;
+    }
+    
+    isLoading = true;
+    loadingIndicator.style.display = 'block';
+    console.log('Loading indicator shown');
+    
+    try {
+      const nextPage = currentPage + 1;
+      let pageUrl;
+      
+      if (nextPage === 1) {
+        pageUrl = '/';
+      } else {
+        pageUrl = `/page${nextPage}/`;
+      }
+      
+      console.log('Fetching URL:', pageUrl);
+      
+      const response = await fetch(pageUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Try different selectors to find posts
+      let newPosts = doc.querySelectorAll('#posts-container .list__item');
+      if (newPosts.length === 0) {
+        newPosts = doc.querySelectorAll('.list__item');
+      }
+      if (newPosts.length === 0) {
+        newPosts = doc.querySelectorAll('.archive__item');
+      }
+      
+      console.log('Found', newPosts.length, 'new posts');
+      
+      // Add new posts to container
+      newPosts.forEach((post, index) => {
+        console.log('Adding post', index + 1);
+        const clonedPost = post.cloneNode(true);
+        postsContainer.appendChild(clonedPost);
+      });
+      
+      currentPage = nextPage;
+      console.log('Current page updated to:', currentPage);
+      
+    } catch (error) {
+      console.error('Error loading posts:', error);
+      
+      // Show error message to user
+      const errorDiv = document.createElement('div');
+      errorDiv.style.textAlign = 'center';
+      errorDiv.style.padding = '20px';
+      errorDiv.style.color = '#ff6b6b';
+      errorDiv.textContent = 'Failed to load more posts. Please try refreshing the page.';
+      postsContainer.appendChild(errorDiv);
+      
+    } finally {
+      isLoading = false;
+      loadingIndicator.style.display = 'none';
+      console.log('Loading completed');
+    }
+  }
+  
+  // Scroll event listener
+  function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const threshold = 1000;
+    
+    const distanceFromBottom = documentHeight - (scrollTop + windowHeight);
+    
+    // Debug scroll position
+    console.log('Scroll debug:', {
+      scrollTop,
+      windowHeight,
+      documentHeight,
+      distanceFromBottom,
+      threshold,
+      shouldLoad: distanceFromBottom <= threshold
+    });
+    
+    // Load more posts when user is near bottom of page
+    if (distanceFromBottom <= threshold) {
+      console.log('Scroll threshold reached, attempting to load more posts');
+      loadMorePosts();
+    }
+  }
+  
+  // Throttled scroll handler
+  let scrollTimeout;
+  window.addEventListener('scroll', function() {
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(handleScroll, 100);
+  });
+  
+  console.log('Scroll event listener attached');
+});
+</script>
+
+<!-- Loading spinner styles -->
+<style>
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#loading-indicator {
+  color: #666;
+}
+
+/* Dark theme loading indicator */
+@media (prefers-color-scheme: dark) {
+  #loading-indicator {
+    color: #a8a8a8;
+  }
+  
+  .loading-spinner {
+    border-color: #555;
+    border-top-color: #8ab4f8;
+  }
+}
+</style>
+
+<!-- Fallback pagination for non-JS users -->
+<noscript>
+  {% include paginator.html %}
+</noscript>

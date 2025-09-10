@@ -3,7 +3,164 @@
     <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
   {% endif %}
 
-  <a href="https://twitter.com/intent/tweet?{% if site.twitter.username %}via={{ site.twitter.username | url_encode }}&{% endif %}text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} X (Twitter)"><i class="fa-brands fa-square-x-twitter" aria-hidden="true"></i></a>
+  <button class="btn btn--twitter custom-share-btn" 
+          data-platform="twitter"
+          data-title="{{ page.title | url_encode }}"
+          data-url="{{ page.url | absolute_url | url_encode }}"
+          {% if site.twitter.username %}data-via="{{ site.twitter.username | url_encode }}"{% endif %}
+          title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} X">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  </button>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
+  <button class="btn btn--linkedin custom-share-btn" 
+          data-platform="linkedin"
+          data-title="{{ page.title | url_encode }}"
+          data-url="{{ page.url | absolute_url | url_encode }}"
+          title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} LinkedIn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+    </svg>
+  </button>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const shareButtons = document.querySelectorAll('.custom-share-btn');
+  
+  shareButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const platform = this.dataset.platform;
+      const title = decodeURIComponent(this.dataset.title);
+      const url = decodeURIComponent(this.dataset.url);
+      const via = this.dataset.via;
+      
+      let shareUrl = '';
+      
+      if (platform === 'twitter') {
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+        if (via) {
+          shareUrl += `&via=${via}`;
+        }
+      } else if (platform === 'linkedin') {
+        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
+      }
+      
+      if (shareUrl) {
+        window.open(shareUrl, 'share-window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+      }
+    });
+  });
+});
+</script>
+
+<style>
+.custom-share-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em;
+  margin: 0.25em;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.custom-share-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Light theme colors */
+.btn--twitter.custom-share-btn {
+  color: #1da1f2;
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+.btn--twitter.custom-share-btn:hover {
+  background-color: rgba(29, 161, 242, 0.2);
+}
+
+.btn--linkedin.custom-share-btn {
+  color: #0077b5;
+  background-color: rgba(0, 119, 181, 0.1);
+}
+
+.btn--linkedin.custom-share-btn:hover {
+  background-color: rgba(0, 119, 181, 0.2);
+}
+
+/* Dark theme colors */
+.dark .btn--twitter.custom-share-btn,
+[data-theme="dark"] .btn--twitter.custom-share-btn,
+.page__content.dark .btn--twitter.custom-share-btn {
+  color: #8ecae6;
+  background-color: rgba(142, 202, 230, 0.15);
+}
+
+.dark .btn--twitter.custom-share-btn:hover,
+[data-theme="dark"] .btn--twitter.custom-share-btn:hover,
+.page__content.dark .btn--twitter.custom-share-btn:hover {
+  background-color: rgba(142, 202, 230, 0.25);
+}
+
+.dark .btn--linkedin.custom-share-btn,
+[data-theme="dark"] .btn--linkedin.custom-share-btn,
+.page__content.dark .btn--linkedin.custom-share-btn {
+  color: #219ebc;
+  background-color: rgba(33, 158, 188, 0.15);
+}
+
+.dark .btn--linkedin.custom-share-btn:hover,
+[data-theme="dark"] .btn--linkedin.custom-share-btn:hover,
+.page__content.dark .btn--linkedin.custom-share-btn:hover {
+  background-color: rgba(33, 158, 188, 0.25);
+}
+
+/* Additional dark theme selectors for Minimal Mistakes */
+body.layout--single.dark .btn--twitter.custom-share-btn,
+.masthead--dark .btn--twitter.custom-share-btn {
+  color: #8ecae6;
+  background-color: rgba(142, 202, 230, 0.15);
+}
+
+body.layout--single.dark .btn--twitter.custom-share-btn:hover,
+.masthead--dark .btn--twitter.custom-share-btn:hover {
+  background-color: rgba(142, 202, 230, 0.25);
+}
+
+body.layout--single.dark .btn--linkedin.custom-share-btn,
+.masthead--dark .btn--linkedin.custom-share-btn {
+  color: #219ebc;
+  background-color: rgba(33, 158, 188, 0.15);
+}
+
+body.layout--single.dark .btn--linkedin.custom-share-btn:hover,
+.masthead--dark .btn--linkedin.custom-share-btn:hover {
+  background-color: rgba(33, 158, 188, 0.25);
+}
+
+/* Media query for system dark mode */
+@media (prefers-color-scheme: dark) {
+  .btn--twitter.custom-share-btn {
+    color: #eaeaea;
+    background-color: rgba(142, 202, 230, 0.15);
+  }
+  
+  .btn--twitter.custom-share-btn:hover {
+    background-color: rgba(33, 158, 188, 0.15);
+  }
+  
+  .btn--linkedin.custom-share-btn {
+    color: #eaeaea;
+    background-color: rgba(142, 202, 230, 0.15);
+  }
+  
+  .btn--linkedin.custom-share-btn:hover {
+    background-color: rgba(33, 158, 188, 0.15);
+  }
+}
+</style>
