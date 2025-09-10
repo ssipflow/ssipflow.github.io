@@ -143,24 +143,47 @@ body.layout--single.dark .btn--linkedin.custom-share-btn:hover,
   background-color: rgba(33, 158, 188, 0.25);
 }
 
+/* Mobile-specific overrides for consistent colors */
+@media screen and (max-width: 768px) {
+  .btn--twitter.custom-share-btn,
+  .btn--linkedin.custom-share-btn {
+    color: #eaeaea !important;
+    background-color: rgba(142, 202, 230, 0.15) !important;
+  }
+  
+  .btn--twitter.custom-share-btn:hover,
+  .btn--linkedin.custom-share-btn:hover {
+    background-color: rgba(33, 158, 188, 0.15) !important;
+  }
+}
+
 /* Media query for system dark mode */
 @media (prefers-color-scheme: dark) {
   .btn--twitter.custom-share-btn {
-    color: #eaeaea;
-    background-color: rgba(142, 202, 230, 0.15);
+    color: #eaeaea !important;
+    background-color: rgba(142, 202, 230, 0.15) !important;
   }
   
   .btn--twitter.custom-share-btn:hover {
-    background-color: rgba(33, 158, 188, 0.15);
+    background-color: rgba(33, 158, 188, 0.15) !important;
   }
   
   .btn--linkedin.custom-share-btn {
-    color: #eaeaea;
-    background-color: rgba(142, 202, 230, 0.15);
+    color: #eaeaea !important;
+    background-color: rgba(142, 202, 230, 0.15) !important;
   }
   
   .btn--linkedin.custom-share-btn:hover {
-    background-color: rgba(33, 158, 188, 0.15);
+    background-color: rgba(33, 158, 188, 0.15) !important;
   }
+}
+
+/* Force consistent styling regardless of theme detection issues */
+html[data-theme="dark"] .btn--twitter.custom-share-btn,
+html[data-theme="dark"] .btn--linkedin.custom-share-btn,
+body.dark .btn--twitter.custom-share-btn,
+body.dark .btn--linkedin.custom-share-btn {
+  color: #eaeaea !important;
+  background-color: rgba(142, 202, 230, 0.15) !important;
 }
 </style>
