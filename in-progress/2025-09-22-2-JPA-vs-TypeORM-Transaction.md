@@ -182,7 +182,7 @@ public class AuditLogJpaAdapter implements AuditLogPort {
     
     private final AuditLogRepository auditLogRepository;
 
-    public AuditLogJpaAdapter(AuditLogRepository) {
+    public AuditLogJpaAdapter(AuditLogRepository auditLogRepository) {
         this.auditLogRepository = auditLogRepository;
     }
 
@@ -204,21 +204,28 @@ public class PlaceOrderUseCase {
     private final PaymentPort paymentPort;
     private final AuditLogPort auditLogPort;
 
-    public PlaceOrderUseCase(OrderPort orderPort, PaymentPort paymentPort, AuditLog) {
+    public PlaceOrderUseCase(OrderPort orderPort, PaymentPort paymentPort, AuditLogPort auditLogPort) {
         this.orderPort = orderPort;
         this.paymentPort = paymentPort;
+        this.auditLogPort = auditLogPort;
     }
 
     @Transactional
     public void execute(Long userId, Long productId) {
-        Long orderId = orderPort.createOrder(userId, productId);
-        paymentPort.approvePayment(orderId);
-        // 여기까지 본 트랜잭션 REQUIRED
+        // 본 트랜잭션
+        Long orderId = orderPort.createOrder(userId, productId);    // REQUIRED
+        paymentPort.approvePayment(orderId);    //REQUIRED
 
-        audit
+        // 별도 트랜잭션 REQUIRES_NEW
+        // 이 트랜잭션의 실패는 기존 트랜잭션(REQUIRED)에 영향을 주지 않음
+        auditLogPort.writeAudit("ORDER_PLACED", userId);   
     }
 }
 ```
+- 본 트랜잭션 성공 + Audit Log 실패 -> 주문은 커밋, Audit Log 만 롤백
+- 본 트랜잭션 실패 -> Audit Log 는 이미 커밋되어서 유지된다.
+- REQUIRES_NEW 는 **추가 커넥션을 점유한다**. 고빈도 사용 시 커넥션 풀 고갈에 주의해야 한다.
+- 로깅/아웃박스 처럼 트랜잭션 실패가 비즈니스 로직에 영향을 끼치면 안되는 부수 작업에 한정한다.
 
 ## 2.4. 트랜잭션 격리수준 (Isolation level)
 
