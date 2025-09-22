@@ -116,6 +116,110 @@ User u2 = userRepository.findById(1L).get();    // 두 번째 EntityManager
 ```
 
 ## 2.3. 트랜잭션 전파옵션 (Propagation)
+트랜잭션 전파(Propagation)는 이미 진행 중인 트랜잭션이 있을 때, 새로운 트랜잭션 경계를 어떻게 적용할지를 결정한다.
+스프링은 `@Transactional`의 `propagation` 속성을 통해 전파 방식을 지정할 수 있다.
+
+### 주요 옵션
+- **REQUIRED (기본값)**
+    - 실행중인 기존 트랜잭션에 참여한다. 기존에 실행중인 트랜잭션이 없으면 새로운 트랜잭션을 만든다.
+    - 가장 일반적으로 사용되는 방식.
+- **REQUIRES_NEW**
+    - 항상 새로운 트랜잭션을 시작한다.
+    - 기존 트랜잭션은 잠시 보류된다.
+    - 독립적인 작업(로그 기록 등)에 사용.
+- **NESTED**
+    - 부모 트랜잭션 안에서 중첩 트랜잭션을 시작한다.
+    - 부모 롤백 시 같이 자식 트랜잭션도 롤백.
+    - 자식 롤백 시 부모 트랜잭션에 영향을 주지 않는다. (부모 트랜잭션은 그대로 실행)
+    - *save point*를 지원하는 DB 에서만 동작한다.
+- **MANDATORY**
+    - 반드시 기존 트랜잭션이 존재해야 한다.
+    - 기존 트랜잭션이 없으면 예외 발생.
+- **NEVER**
+    - 항상 트랜잭션 없이 실행한다.
+    - 기존 트랜잭션이 있으면 예외 발생.
+- **SUPPORTS**
+    - 기존 트랜잭션이 있으면 참여한다.
+    - 기존 트랜잭션이 없으면 트랜잭션 없이 실행.
+- **NOT_SUPPORTED**
+    - 기존 트랜잭션이 있으면 잠시  중단시키고, 트랜잭션 없이 실행.
+
+### 예시 A) REQUIRED: 한번에 묶기 (UseCase 레벨)
+- 주문 생성과 결제 승인까지 하나의 트랜잭션으로 처리
+- UseCase(서비스)에서 `@Transactional` **REQUIRED**(기본값) 선언
+```java
+// Application Layer
+@Service
+public class PlaceOrderUseCase {
+
+    private final OrderPort orderPort;
+    private final PaymentPort paymentPort;
+
+    public PlaceOrderUseCase(OrderPort orderPort, PaymentPort paymentPort) {
+        this.orderPort = orderPort;
+        this.paymentPort = paymentPort;
+    }
+
+    // REQUIRED(기본값): 호출 체인을 하나의 트랜잭션으로 처리
+    // 각 port 메서드는 기본값(REQUIRED) 전파옵션 사용
+    @Transactional
+    public void execute(Long userId, Long productId) {
+        Long orderId = orderPort.createOrder(userId, productId);    // INSERT (지연 flush)
+        paymentPort.approvePayment(orderId);                        // UPDATE/INSERT 등
+        // 메서드 정상 종료 -> flush -> commit
+    }
+}
+```
+- `createOrder`와 `approvePayment`가 **동일 EntityManager/영속성컨텍스트**로 수행되어 동일성 보장, Dirty Checking 반영, 원자성 확보 등의 효과를 갖는다.
+
+### 예시 B) REQUIRES_NEW: 기존 트랜잭션과 운영 분리
+- 기존 트랜잭션은 진행시키면서, 부가 로그/아웃박스는 **별도 트랜잭션**으로 커밋
+- 실패해도 기존 트랜잭션에 영향 없음.
+- **Adapter** 에서 `REQUIRES_NEW`를 선언하여 분리한다.
+```java
+@Repository
+public class AuditLogJpaAdapter implements AuditLogPort {
+    
+    private final AuditLogRepository auditLogRepository;
+
+    public AuditLogJpaAdapter(AuditLogRepository) {
+        this.auditLogRepository = auditLogRepository;
+    }
+
+    // 항상 새로운 트랜잭션으로 감사 로그 기록
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Override
+    public void writeAudit(String action, Long userId) {
+        auditLogRepository.save(new AuditLog(action, userId));
+        // 여기서 예외 발생 시, 이 트랜잭션만 롤백, 기존 트랜잭션은 유지
+    }
+}
+```
+```java
+// Application Layer - UserCase에서 호출
+@Service
+public class PlaceOrderUseCase {
+
+    private final OrderPort orderPort;
+    private final PaymentPort paymentPort;
+    private final AuditLogPort auditLogPort;
+
+    public PlaceOrderUseCase(OrderPort orderPort, PaymentPort paymentPort, AuditLog) {
+        this.orderPort = orderPort;
+        this.paymentPort = paymentPort;
+    }
+
+    @Transactional
+    public void execute(Long userId, Long productId) {
+        Long orderId = orderPort.createOrder(userId, productId);
+        paymentPort.approvePayment(orderId);
+        // 여기까지 본 트랜잭션 REQUIRED
+
+        audit
+    }
+}
+```
+
 ## 2.4. 트랜잭션 격리수준 (Isolation level)
 
 # 3. TypeORM의 트랜잭션 관리
