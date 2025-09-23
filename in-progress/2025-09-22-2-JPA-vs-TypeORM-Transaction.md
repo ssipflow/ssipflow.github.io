@@ -228,6 +228,94 @@ public class PlaceOrderUseCase {
 - 로깅/아웃박스 처럼 트랜잭션 실패가 비즈니스 로직에 영향을 끼치면 안되는 부수 작업에 한정한다.
 
 ## 2.4. 트랜잭션 격리수준 (Isolation level)
+트랜잭재션 격리수준은 동시 실행되는 트랜잭션 간의 **읽기/쓰기 간섭을 얼마나 허용할지**를 정의한다.
+ANSI SQL 은 다음 네 가지 수준을 정의한다.
+
+### 주요 격리수준
+- **READ UNCOMMITTED**
+    - 가장 낮은 격리수준, 거의 사용하지 않는다.
+    - **Dirty Read** 허용: 다른 트랜잭션에서 커밋되지 않은 데이터를 읽을 수 있다. (Dirty Read 허용)
+- **READ COMMITTED** (대부분 RDMS 의 기본값)
+    - 커밋된 데이터만 읽는다. Dirty Read 방지.
+    - **Non-Repeatable Read** 발생 가능: 동일 트랜잭션에서 재조회 시 값이 달라질 수 있다.
+- **REPEATABLE READ** (MySQL 기본값)
+    - 트랜잭션 동안 동일한 행을 반복 조회하면 항상 같은 값을 보장한다.
+    - Non-Repeatable Read 방지.
+    - **Phantom Read** 발생 가능: 새로운 행이 삽입되면 결과 집합이 달라질 수 있다.
+- **SERIALIZABLE**
+    - 가장 엄격한 격리수준. 모든 트랜잭션을 순차적으로 실행하는 것과 동일한 효과를 나타낸다.
+    - 동시성 처리량이 크게 떨어진다.
+
+### Spring @Transactional 과 격리수준
+스프링은 `@Transactional`의 `isolation` 속성으로 격리수준을 지정할 수 있다. 지정하지 않으면 DBMS의 기본 격리수준을 따른다.
+
+```java
+@Service
+public class BankService {
+    
+    private final AccountRepository accountRepository;
+
+    public BankService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    // READ_COMMITTED 수준에서 실행
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void transfer(Long fromId, Long amount) {
+        Account from = accountRepository.findById(fromId).orElseThrow();
+        from.withdraw(amount);
+
+        Account to = accountRepository.findById(toId).orElseThrow();
+        to.deposit(amount);
+        // 커밋 시점에만 DB 반영
+    }
+}
+```
+
+### 주의
+- **DB 기본 격리수준 확인이 우선**
+    - 스프링 설정을 따르지 않아도 DB가 무시하는 경우도 있다.
+    - MySQL 의 기본 격리수준은 REPEATABLE_READ 로, Spring에서 `isolation = Isolation.READ_COMMITTED`로 설정해도 실제 실행은 MySQL 의 기본 설정인 `REPEATABLE_READ`로 동작한다.
+    - 개발환경(H2, PostgreSQL 등)과 운영 환경(MySQL) 간 차이로 인해 동시성 이슈가 발생할 수 있다.
+- **격리수준이 높을수록 동시성 처리량 저하**
+    - 성능 문제로 인해 SERIALIZABLE은 실무에서 거의사용하지 않는다.
+- **ORM 환경에서 READ_COMMITTED 일반적** 
+    - Dirty Checking, Lazy Loading 등 JPA 동작 특성과 잘 맞는다.
+- **MySQL REPEATABLE READ 특이성**
+    - 표준 정의와 달리, InnoDB는 MVCC를 사용해 Phantom Read까지 방지한다.
+    - 하지만 `SELECT ... FOR UPDATE` 같은 락 기반 쿼리는 별도 동작을 고려해야 한다.
+- **격리수준만으로 트랜잭션 정합성을 보장하지 못할경우 Lock 을 사용한다**
+    - 동시성 갱신이 빈번한 도메인에서는 `@Version`을 활용한 낙관적 락이나, 비관적 락(`@Lock(PESSIMISTIC_WRITE)`)을 병행하는 것이 일반적.
+
+### MySQL REPEATABLE READ 특이성
+- **표준 REPEATABLE READ**
+    - 동일 트랜잭션 내에서 같은 행(Row)을 재조회 하면 값이 변하지 않음을 보장.
+    - 하지만 새로 삽입된 행은 보이지 않을 수 있다. -> **Phantom Read** 발생 가능.
+- **MySQL(InnoDB)의 REPEATABLE READ**
+    - **MVCC(Multi-Version Concurrency Control)를 이용해, 트랜잭션 시작 시점의 스냅샷을 기준**으로 데이터를 읽는다.
+    - 따라서 기본 SELECT 는 Phantom Read까지 방지된다.
+    - 이 때문에 MySQL의 REPEATABLE READ는 사실상 **REPEATABLE READ + Phantom Read 방지** 수준이다.
+- **예외**: 락 기반 쿼리
+    - `SELECT ... FOR UPDATE` 또는 `SELECT ... LOCK IN SHARE MODE`는 실시간 최신 데이터를 읽고 락을 건다.
+    - 이 경우는 스냅샷이 아니라 현재 상태를 보는 것으로, 삽입된 새로운 행이 결과 집합에 나타날 수 있고 Phantom Read가 다시 발생할 수 있다.
+    - 즉, **InnoDB의 REPEATABLE READ는 순수 스냅샷 기반 SELECT에만 Phantom Read를 막는다.**
+
+#### 시나리오 (MySQL)
+```mermaid
+sequenceDiagram
+    participant S1 as Session 1 (Tx1)
+    participant S2 as Session 2 (Tx2)
+
+    S1->>S1: START TRANSACTION (Isolation: RR)
+    S1->>S1: SELECT amount>120<br/>→ 결과 2건
+
+    S2->>S2: START TRANSACTION
+    S2->>S2: INSERT (id=3, amount=200)
+    S2->>S2: COMMIT
+
+    S1->>S1: SELECT amount>120<br/>→ 여전히 2건 (스냅샷 기준)
+    S1->>S1: SELECT amount>120 FOR UPDATE<br/>→ 3건 (Tx2 데이터 포함)
+```
 
 # 3. TypeORM의 트랜잭션 관리
 
