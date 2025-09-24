@@ -307,16 +307,69 @@ sequenceDiagram
     participant S2 as Session 2 (Tx2)
 
     S1->>S1: START TRANSACTION (Isolation: RR)
-    S1->>S1: SELECT amount>120<br/>→ 결과 2건
+    S1->>S1: SELECT amount>120\n→ 결과 2건
 
     S2->>S2: START TRANSACTION
     S2->>S2: INSERT (id=3, amount=200)
     S2->>S2: COMMIT
 
-    S1->>S1: SELECT amount>120<br/>→ 여전히 2건 (스냅샷 기준)
-    S1->>S1: SELECT amount>120 FOR UPDATE<br/>→ 3건 (Tx2 데이터 포함)
+    S1->>S1: SELECT amount>120\n→ 여전히 2건 (스냅샷 기준)
+
+    S1->>S1: SELECT amount>120 FOR UPDATE\n→ 3건 (Tx2 데이터 포함)
+    Note right of S1: 여기서 Phantom Read 발생 가능
 ```
 
 # 3. TypeORM의 트랜잭션 관리
 
+## 3.1. 기본방식 - DataSource.transaction
+- JPA의 `@Transactional`처럼 블록 단위로 트랜잭션을 관리한다.
+- 블록 내부에서만 동일한 `EntityManager`가 보장된다.
+- 블록 외부에서 조회한 엔티티는 트랜잭션 매니저와 무관하기 때문에, 내부에서 다시 조회해야 한다.
+- 블록이 끝나면 자동으로 commit/rollback 처리된다.
+
+```typescript
+await dataSource.transaction(async (manager) => {
+    const order = manager.getRepository(Order).create({ userId, productId });
+    await manager.getRepository(Order).save(order); // INSERT
+
+    const payment = manager.getRepository(Payment).create({ orderId: order.id, amount: 10000 });
+    await manager.getRepository(Payment).save(payment); // INSERT
+    // 블록 정상 종료 -> commit
+});
+```
+
+## 3.2. QueryRunner 사용
+- `QueryRunner`를 직접 생성해 트랜잭션을 관리한다.
+- `startTransaction()`, `commitTransaction()`, `rollbackTransaction()`을 직접 호출해야 한다.
+- 트랜잭션 경계가 명확하지 않으면 커밋/롤백 타이밍을 놓칠 수 있다.
+
+```typescript
+const queryRunner = dataSource.createQueryRunner();
+await queryRunner.connect();
+await queryRunner.startTransaction();
+try {
+    const order = queryRunner.manager.getRepository(Order).create({ userId, productId });
+    await queryRunner.manager.getRepository(Order).save(order); // INSERT
+
+    await queryRunner.commitTransaction(); // 명시적 커밋
+} catch (err) {
+    await queryRunner.rollbackTransaction(); // 명시적 롤백
+} finally {
+    await queryRunner.release(); // 커넥션 해제
+}
+```
+
+## 3.3. JPA와 차이점
+- JPA
+  - `@Transactional`로 트랜잭션을 선언적으로 관리.
+  - 전파옵션(`REQUIRES_NEW`, `NESTED` 등)과 격리수준을 선언적으로 지정 가능.
+  - 동일 트랜잭션 내에서 자동으로 동일 `EntityManager`/영속성 컨텍스트 사용.
+- TypeORM
+  - `DataSource.transaction` 블록 내부에서만 동일 `EntityManager` 보장.
+  - 전파옵션 개념이 없어, 별도 트랜잭션이 필요하면 직접 새로운 `transaction()` 호출.
+  - `QueryRunner.startTransaction('READ COMMITTED')`처럼 코드에서 격리수준 지정.
+
 # 4. 결론
+트랜잭션은 단순히 commit/rollback의 개념을 넘어, **영속성 컨텍스트, 전파옵션, 격리수준**과 같은 다양한 요소가 복합적으로 작용해야 올바르게 동작한다.
+JPA 는 이를 프레임워크 차원에서 추상화 하여 개발자가 선언적으로 다룰 수 있도록 하지만, TypeORM은 이러한 요소들을 명시적으로 관리해야 한다.
+결국 **트랜잭션 경계와 DB의 특성**을 명확히 이해하고, 도메인 요구사항에 맞게 적절히 설계하는 것이 중요하다.
