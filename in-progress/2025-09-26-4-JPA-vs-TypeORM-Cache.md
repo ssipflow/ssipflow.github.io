@@ -134,5 +134,68 @@ public void testIdentityGuarantee() {
 * **캐시 무효화**: 1차 캐시는 트랜잭션이 끝나면 사라지므로, 장기적으로 데이터를 캐싱하려면 2차 캐시(예: Hibernate 2nd-level cache)를 사용해야 한다.
 
 # 3. TypeORM 의 캐시
+TypeORM의 캐시는 JPA의 1차 캐시와는 성격이 완전히 다르다.
+
+- JPA 1차 캐시는 영속성 컨텍스트 단위에서 엔티티 동일성을 보장하고, Dirty Checking으로 변경사항을 추적한다.
+- 반면, TypeORM 캐시는 쿼리 결과를 메모리나 Redis 등에 저장하고, 같은 쿼리를 실행할 때 캐시된 결과를 반환하는 단순한 "쿼리결과 캐시(Query Result Cache)"이다.
+
+즉, JPA의 캐시는 트랜잭션 일관성을 위한 것이고, TypeORM 캐시는 쿼리 성능 최적화를 위한 것이다.
+
+### 3.1. 기본동작
+TypeORM은 QueryBuilder 단계에서 `.cache(true)` 혹은 전역 설정(`cache: true`)을 통해 캐시를 활성화 할 수 있다.
+
+```typescript
+const users = await dataSource
+    .getRepository(User)
+    .createQueryBuilder("u")
+    .where('u.isActive = :active', { active: true })
+    .cache(60000) // 60초 동안 캐싱
+    .getMany();
+```
+- 최초 실행 시 DB에서 데이터를 조회하고, 결과를 캐시에 저장한다.
+- 이후 동일 쿼리를 실행하면 DB가 아니라 캐시에서 결과를 가져온다.
+
+### 3.2. 실무 사례: 캐시로 인한 정합성 문제
+실무에서 TypeORM 캐시 때문에 데이터가 갱신되었음에도 불구하고, 이전 상태가 반환되는 문제를 겪은 적이 있다. 기존 코드는 Repository 기반 QueryBuilder를 사용했다.
+```typescript
+// Repository 기반 QueryBuilder
+const row = await this.dataSource
+    .getRepository(User)
+    .createQueryBuilder("u")
+    .where('u.id = :id', { id: userId })
+    .orderBy('u.id', 'DESC')
+    .cache(false) // cache(false)를 줬지만, 여전히 캐시된 결과가 반환됨
+    .getOne();
+```
+여기서 `cache(false)`를 명시했음에도 불구하고 전역 캐시 설정의 영향으로 과거 결과가 반환되는 사례가 발생했다. 즉, **TypeORM의 캐시는 트랜잭션 단위로 완전히 격리되지 않으며, Repository 레벨에서는 제어가 제한적일 수 있다.**
+
+### 3.3. 해결방법: QueryRunner 사용
+이 문제를 해결하기 위해 `QueryRunner`를 직접 사용하여 세션을 분리하고, `cache(false)`를 강제 적용했다.
+
+```typescript
+const qr = this.dataSource.createQueryRunner();
+await qr.connect();
+try {
+    await qr.query('SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED');
+    const row = await qr.manager
+        .createQueryBuilder(User, 'u')
+        .where('u.id = :id', { id: userId })
+        .orderBy('u.id', 'DESC')
+        .cache(false) // 최신 데이터 강제 조회
+        .getOne();
+    return row ?? null;
+} finally {
+    await qr.release();
+}
+```
+- 독립된 `QueryRunner`를 통해 전역 캐시의 영향을 차단
+- `cache(false)`를 명시하여 캐시된 결과가 아닌 최신 데이터를 강제 조회
+- 동시에 `SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED`를 적용해 읽기 정합성을 강화
+
+### 3.4. 정리
+- **JPA의 1차 캐시**: 트랜잭션 범위 내에서 엔티티 동일성과 Dirty Checking을 보장하여 데이터 정합성을 유지한다.
+- **TypeORM의 캐시**: 쿼리 결과를 캐싱하여 성능을 최적화하지만, 트랜잭션 단위로 완전히 격리되지 않아 정합성 문제가 발생할 수 있다.
+- 실무에서는 캐시된 오래된 데이터로 인해 로직이 꼬일 수 있으므로, 최신 데이터가 필요한 경우 캐시를 비활성화하거나, 필요 시 `QueryRunner`로 독립된 세션을 사용하는 것이 좋다.
+
 # 4. JPA 1차 캐시 vs TypeORM 캐시
 # 5. JPA 시리즈를 마치며
