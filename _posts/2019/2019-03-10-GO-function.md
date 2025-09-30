@@ -1,5 +1,5 @@
 ---
-title: \[GO\] 함수에 대하여 \#1
+title: "[GO] 함수에 대하여 #1"
 layout: single
 author_profile: true
 comments: true

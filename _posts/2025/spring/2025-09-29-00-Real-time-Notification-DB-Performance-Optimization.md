@@ -1,5 +1,5 @@
 ---
-title: \[Spring\] 실시간 알림 DB 부하 개선 사례 (80% 감소)
+title: "[Spring] 실시간 알림 DB 부하 개선 사례 (80% 감소)"
 layout: single
 author_profile: true
 comments: true

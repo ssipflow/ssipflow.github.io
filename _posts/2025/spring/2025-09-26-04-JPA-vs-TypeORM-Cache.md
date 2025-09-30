@@ -1,5 +1,5 @@
 ---
-title: \[JPA \#4\] JPA vs TypeORM - JPA 1차 캐시
+title: "[JPA] 5. JPA vs TypeORM - JPA 1차 캐시"
 layout: single
 author_profile: true
 comments: true

@@ -1,5 +1,5 @@
 ---
-title: \[JPA \#4\] JPA vs TypeORM - Lock 전략
+title: "[JPA] 4. JPA vs TypeORM - Lock 전략"
 layout: single
 author_profile: true
 comments: true

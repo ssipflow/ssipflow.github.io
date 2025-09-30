@@ -1,5 +1,5 @@
 ---
-title: \[Clean Architecture \#2\] Clean Architecture with Spring Boot
+title: "[Clean Architecture] 2. Clean Architecture with Spring Boot"
 layout: single
 author_profile: true
 comments: true

@@ -1,5 +1,5 @@
 ---
-title: \[JPA \#2\] JPA vs TypeORM - N+1
+title: "[JPA] 2. JPA vs TypeORM - N+1"
 layout: single
 author_profile: true
 comments: true

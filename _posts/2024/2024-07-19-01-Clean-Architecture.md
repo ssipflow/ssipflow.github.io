@@ -1,5 +1,5 @@
 ---
-title: \[Clean Architecture \#1\] Clean Architecture 개요
+title: "[Clean Architecture] 1. Clean Architecture 개요"
 layout: single
 author_profile: true
 comments: true

@@ -1,5 +1,5 @@
 ---
-title: \[GO\] 자바 이후 2년간 GO 를 메인으로 사용하며
+title: "[GO] 자바 이후 2년간 GO 를 메인으로 사용하며"
 layout: single
 author_profile: true
 comments: true
