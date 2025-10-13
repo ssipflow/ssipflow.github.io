@@ -318,4 +318,22 @@ MSA 구조를 유지하기에는 각 송금 단계별 트랜잭션 경계가 복
 > 실무 결론: 본 사례의 도메인 특성(송금 상태 전이의 치명도, 외부 연동 이질성, 소규모 팀)에서는  
 > **Monolith + Async Worker**가 초기 안정성과 운영 효율에서 우위였고, 이후 **Worker 분산화(Kafka 등)로 점진적 확장**이 자연스러운 경로였다.
 
+## 3.2. Microservice Architecture for Real-Time Trading (Polling + WebSocket)
+
+|![Service API Architecture](/assets/images/static/250930/web3-api-architecture.svg)|
+|:--:|
+|서비스 API 아키텍처 예시|
+
+<br/>
+
+|![Market API Architecture](/assets/images/static/250930/web3-markets-architecture.svg)|
+|:--:|
+|Market API 아키텍처 예시|
+
+### 아키텍처 개요
+### 설계 배경
+### 핵심 설계 포인트
+### 문제점 및 개선방향
+### 시스템 설계 관점의 인사이트
+
 # 4. 마치며 
